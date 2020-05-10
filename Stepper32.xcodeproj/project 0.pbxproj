@@ -1,0 +1,935 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BDC427BD2463415100E4335A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BDC427BC2463415100E4335A /* main.cpp */; };
+		BDC427BF2463415100E4335A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = BDC427BE2463415100E4335A /* Makefile */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BDC427B92463415100E4335A /* Index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Index; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDC427BC2463415100E4335A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		BDC427BE2463415100E4335A /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		BDC427C02463415100E4335A /* Doxyfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
+		BDC427C12463415100E4335A /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		BDC427C32463415100E4335A /* Glowdeck (Bluetooth).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (Bluetooth).xcconfig"; path = "Configurations/Glowdeck (Bluetooth).xcconfig"; sourceTree = "<group>"; };
+		BDC427C42463415100E4335A /* Glowdeck (J-Link).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (J-Link).xcconfig"; path = "Configurations/Glowdeck (J-Link).xcconfig"; sourceTree = "<group>"; };
+		BDC427C52463415100E4335A /* Glowdeck (USB).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (USB).xcconfig"; path = "Configurations/Glowdeck (USB).xcconfig"; sourceTree = "<group>"; };
+		BDC427C62463415100E4335A /* Teensy 2.0.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 2.0.xcconfig"; path = "Configurations/Teensy 2.0.xcconfig"; sourceTree = "<group>"; };
+		BDC427C72463415100E4335A /* Teensy 3.0.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.0.xcconfig"; path = "Configurations/Teensy 3.0.xcconfig"; sourceTree = "<group>"; };
+		BDC427C82463415100E4335A /* Teensy 3.1.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.1.xcconfig"; path = "Configurations/Teensy 3.1.xcconfig"; sourceTree = "<group>"; };
+		BDC427C92463415100E4335A /* Teensy 3.2.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.2.xcconfig"; path = "Configurations/Teensy 3.2.xcconfig"; sourceTree = "<group>"; };
+		BDC427CA2463415100E4335A /* Teensy 3.5.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.5.xcconfig"; path = "Configurations/Teensy 3.5.xcconfig"; sourceTree = "<group>"; };
+		BDC427CB2463415100E4335A /* Teensy 3.6.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.6.xcconfig"; path = "Configurations/Teensy 3.6.xcconfig"; sourceTree = "<group>"; };
+		BDC427CC2463415100E4335A /* Teensy 4.0.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 4.0.xcconfig"; path = "Configurations/Teensy 4.0.xcconfig"; sourceTree = "<group>"; };
+		BDC427CD2463415100E4335A /* Teensy LC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy LC.xcconfig"; path = "Configurations/Teensy LC.xcconfig"; sourceTree = "<group>"; };
+		BDC427CE2463415100E4335A /* My Board.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "My Board.xcconfig"; path = "Configurations/My Board.xcconfig"; sourceTree = "<group>"; };
+		BDC427CF2463415100E4335A /* Stepper32.ino */ = {isa = PBXFileReference; lastKnownFileType = text; path = Stepper32.ino; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		BDC427A32463415100E4335A = {
+			isa = PBXGroup;
+			children = (
+				BDC427BB2463415100E4335A /* Stepper32 */,
+				BDC427BA2463415100E4335A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDC427BA2463415100E4335A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BDC427B92463415100E4335A /* Index */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BDC427BB2463415100E4335A /* Stepper32 */ = {
+			isa = PBXGroup;
+			children = (
+				BDC427BC2463415100E4335A /* main.cpp */,
+				BDC427BE2463415100E4335A /* Makefile */,
+				BDC427C02463415100E4335A /* Doxyfile */,
+				BDC427C12463415100E4335A /* ReadMe.txt */,
+				BDC427CF2463415100E4335A /* Stepper32.ino */,
+				BDC427C22463415100E4335A /* Configurations */,
+			);
+			path = Stepper32;
+			sourceTree = "<group>";
+		};
+		BDC427C22463415100E4335A /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				BDC427C32463415100E4335A /* Glowdeck (Bluetooth).xcconfig */,
+				BDC427C42463415100E4335A /* Glowdeck (J-Link).xcconfig */,
+				BDC427C52463415100E4335A /* Glowdeck (USB).xcconfig */,
+				BDC427C62463415100E4335A /* Teensy 2.0.xcconfig */,
+				BDC427C72463415100E4335A /* Teensy 3.0.xcconfig */,
+				BDC427C82463415100E4335A /* Teensy 3.1.xcconfig */,
+				BDC427C92463415100E4335A /* Teensy 3.2.xcconfig */,
+				BDC427CA2463415100E4335A /* Teensy 3.5.xcconfig */,
+				BDC427CB2463415100E4335A /* Teensy 3.6.xcconfig */,
+				BDC427CC2463415100E4335A /* Teensy 4.0.xcconfig */,
+				BDC427CD2463415100E4335A /* Teensy LC.xcconfig */,
+				BDC427CE2463415100E4335A /* My Board.xcconfig */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		BDC427A82463415100E4335A /* Build */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "build -C \"$(PROJECT)\" -j";
+			buildConfigurationList = BDC427D22463415100E4335A /* Build configuration list for PBXLegacyTarget "Build" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Build;
+			passBuildSettingsInEnvironment = 1;
+			productName = Build;
+		};
+		BDC427A92463415100E4335A /* All */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "all -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427D52463415100E4335A /* Build configuration list for PBXLegacyTarget "All" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = All;
+			passBuildSettingsInEnvironment = 1;
+			productName = All;
+		};
+		BDC427AA2463415100E4335A /* Share */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "share -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427D82463415100E4335A /* Build configuration list for PBXLegacyTarget "Share" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Share;
+			passBuildSettingsInEnvironment = 1;
+			productName = Share;
+		};
+		BDC427AB2463415100E4335A /* Style */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "style -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427DB2463415100E4335A /* Build configuration list for PBXLegacyTarget "Style" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Style;
+			passBuildSettingsInEnvironment = 1;
+			productName = Style;
+		};
+		BDC427AC2463415100E4335A /* Document */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "document -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427DE2463415100E4335A /* Build configuration list for PBXLegacyTarget "Document" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Document;
+			passBuildSettingsInEnvironment = 1;
+			productName = Document;
+		};
+		BDC427AD2463415100E4335A /* Distribute */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "distribute -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427E12463415100E4335A /* Build configuration list for PBXLegacyTarget "Distribute" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Distribute;
+			passBuildSettingsInEnvironment = 1;
+			productName = Distribute;
+		};
+		BDC427AE2463415100E4335A /* Archive */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "archive -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427E42463415100E4335A /* Build configuration list for PBXLegacyTarget "Archive" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Archive;
+			passBuildSettingsInEnvironment = 1;
+			productName = Archive;
+		};
+		BDC427AF2463415100E4335A /* Unarchive */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "unarchive -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427E72463415100E4335A /* Build configuration list for PBXLegacyTarget "Unarchive" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Unarchive;
+			passBuildSettingsInEnvironment = 1;
+			productName = Unarchive;
+		};
+		BDC427B02463415100E4335A /* Boards */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "boards -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427EA2463415100E4335A /* Build configuration list for PBXLegacyTarget "Boards" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Boards;
+			passBuildSettingsInEnvironment = 1;
+			productName = Boards;
+		};
+		BDC427B12463415100E4335A /* Serial */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "serial -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427ED2463415100E4335A /* Build configuration list for PBXLegacyTarget "Serial" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Serial;
+			passBuildSettingsInEnvironment = 1;
+			productName = Serial;
+		};
+		BDC427B22463415100E4335A /* Upload */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "upload -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427F02463415100E4335A /* Build configuration list for PBXLegacyTarget "Upload" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Upload;
+			passBuildSettingsInEnvironment = 1;
+			productName = Upload;
+		};
+		BDC427B32463415100E4335A /* Clean */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "clean -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427F32463415100E4335A /* Build configuration list for PBXLegacyTarget "Clean" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Clean;
+			passBuildSettingsInEnvironment = 1;
+			productName = Clean;
+		};
+		BDC427B42463415100E4335A /* Make */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "make -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427F62463415100E4335A /* Build configuration list for PBXLegacyTarget "Make" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Make;
+			passBuildSettingsInEnvironment = 1;
+			productName = Make;
+		};
+		BDC427B52463415100E4335A /* Fast */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "fast -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427F92463415100E4335A /* Build configuration list for PBXLegacyTarget "Fast" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Fast;
+			passBuildSettingsInEnvironment = 1;
+			productName = Fast;
+		};
+		BDC427B62463415100E4335A /* Debug */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "debug -C \"$(PROJECT)\"";
+			buildConfigurationList = BDC427FC2463415100E4335A /* Build configuration list for PBXLegacyTarget "Debug" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Debug;
+			passBuildSettingsInEnvironment = 1;
+			productName = Debug;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		BDC427B82463415100E4335A /* Index */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDC427FF2463415100E4335A /* Build configuration list for PBXNativeTarget "Index" */;
+			buildPhases = (
+				BDC427B72463415100E4335A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Index;
+			productName = Index;
+			productReference = BDC427B92463415100E4335A /* Index */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BDC427A42463415100E4335A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Ruedi Heimlicher";
+				TargetAttributes = {
+					BDC427A82463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427A92463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AA2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AB2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AC2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AD2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AE2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427AF2463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B02463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B12463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B22463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B32463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B42463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B52463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B62463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					BDC427B82463415100E4335A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = BDC427A72463415100E4335A /* Build configuration list for PBXProject "Stepper32" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BDC427A32463415100E4335A;
+			productRefGroup = BDC427BA2463415100E4335A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BDC427A82463415100E4335A /* Build */,
+				BDC427A92463415100E4335A /* All */,
+				BDC427AA2463415100E4335A /* Share */,
+				BDC427AB2463415100E4335A /* Style */,
+				BDC427AC2463415100E4335A /* Document */,
+				BDC427AD2463415100E4335A /* Distribute */,
+				BDC427AE2463415100E4335A /* Archive */,
+				BDC427AF2463415100E4335A /* Unarchive */,
+				BDC427B02463415100E4335A /* Boards */,
+				BDC427B12463415100E4335A /* Serial */,
+				BDC427B22463415100E4335A /* Upload */,
+				BDC427B32463415100E4335A /* Clean */,
+				BDC427B42463415100E4335A /* Make */,
+				BDC427B52463415100E4335A /* Fast */,
+				BDC427B62463415100E4335A /* Debug */,
+				BDC427B82463415100E4335A /* Index */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BDC427B72463415100E4335A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDC427BF2463415100E4335A /* Makefile in Sources */,
+				BDC427BD2463415100E4335A /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BDC427D02463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDC427CE2463415100E4335A /* My Board.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PATH = "$(PATH):$(PROJECT_DIR)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKETCHBOOK_DIR = "";
+			};
+			name = Debug;
+		};
+		BDC427D12463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PATH = "$(PATH):$(PROJECT_DIR)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKETCHBOOK_DIR = "";
+			};
+			name = Release;
+		};
+		BDC427D32463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BDC427D42463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BDC427D62463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427D72463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427D92463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427DA2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427DC2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427DD2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427DF2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427E02463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427E22463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427E32463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427E52463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427E62463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427E82463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427E92463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427EB2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427EC2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427EE2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427EF2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427F12463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427F22463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427F42463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427F52463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427F72463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427F82463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427FA2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427FB2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC427FD2463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC427FE2463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+		BDC428002463415100E4335A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Debug;
+		};
+		BDC428012463415100E4335A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BDC427A72463415100E4335A /* Build configuration list for PBXProject "Stepper32" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427D02463415100E4335A /* Debug */,
+				BDC427D12463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427D22463415100E4335A /* Build configuration list for PBXLegacyTarget "Build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427D32463415100E4335A /* Debug */,
+				BDC427D42463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427D52463415100E4335A /* Build configuration list for PBXLegacyTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427D62463415100E4335A /* Debug */,
+				BDC427D72463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427D82463415100E4335A /* Build configuration list for PBXLegacyTarget "Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427D92463415100E4335A /* Debug */,
+				BDC427DA2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427DB2463415100E4335A /* Build configuration list for PBXLegacyTarget "Style" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427DC2463415100E4335A /* Debug */,
+				BDC427DD2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427DE2463415100E4335A /* Build configuration list for PBXLegacyTarget "Document" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427DF2463415100E4335A /* Debug */,
+				BDC427E02463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427E12463415100E4335A /* Build configuration list for PBXLegacyTarget "Distribute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427E22463415100E4335A /* Debug */,
+				BDC427E32463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427E42463415100E4335A /* Build configuration list for PBXLegacyTarget "Archive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427E52463415100E4335A /* Debug */,
+				BDC427E62463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427E72463415100E4335A /* Build configuration list for PBXLegacyTarget "Unarchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427E82463415100E4335A /* Debug */,
+				BDC427E92463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427EA2463415100E4335A /* Build configuration list for PBXLegacyTarget "Boards" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427EB2463415100E4335A /* Debug */,
+				BDC427EC2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427ED2463415100E4335A /* Build configuration list for PBXLegacyTarget "Serial" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427EE2463415100E4335A /* Debug */,
+				BDC427EF2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427F02463415100E4335A /* Build configuration list for PBXLegacyTarget "Upload" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427F12463415100E4335A /* Debug */,
+				BDC427F22463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427F32463415100E4335A /* Build configuration list for PBXLegacyTarget "Clean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427F42463415100E4335A /* Debug */,
+				BDC427F52463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427F62463415100E4335A /* Build configuration list for PBXLegacyTarget "Make" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427F72463415100E4335A /* Debug */,
+				BDC427F82463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427F92463415100E4335A /* Build configuration list for PBXLegacyTarget "Fast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427FA2463415100E4335A /* Debug */,
+				BDC427FB2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427FC2463415100E4335A /* Build configuration list for PBXLegacyTarget "Debug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC427FD2463415100E4335A /* Debug */,
+				BDC427FE2463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDC427FF2463415100E4335A /* Build configuration list for PBXNativeTarget "Index" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDC428002463415100E4335A /* Debug */,
+				BDC428012463415100E4335A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BDC427A42463415100E4335A /* Project object */;
+}

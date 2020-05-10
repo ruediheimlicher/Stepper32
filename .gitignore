@@ -1,6 +1,7 @@
-_includes*
-Configurations*
+/_includes/*
+/Configurations/*
 Doxyfile
 schematic32*
 teensy*
-Transfer*
+/Transfer/*
+digi*

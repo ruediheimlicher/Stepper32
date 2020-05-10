@@ -175,7 +175,6 @@ void stopTimer2(void)
 
 void timerfunction(void) 
 { 
-//   timer2Counter +=1;
    
    if (PWM) // Draht soll heiss sein. 
    {

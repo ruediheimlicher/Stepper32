@@ -278,7 +278,7 @@ void delaytimerfunction(void) // 1us
 uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
 {
    //OSZI_A_LO();
-   Serial.printf("\nAbschnittLaden_4M M: %d\n",AbschnittDaten[21]);
+   Serial.printf("\nAbschnittLaden_4M Motor: %d\n",AbschnittDaten[21]);
    stopTimer2();
    uint8_t returnwert=0;
 #  pragma mark Reihenfolge der Daten
@@ -735,7 +735,7 @@ void setup()
    
    //lcd.setCursor(0,0);
    //lcd.print("hallo");
-   delayTimer.begin(delaytimerfunction,20);
+   delayTimer.begin(delaytimerfunction,200);
    
 }
 
@@ -970,7 +970,7 @@ void loop()
             // position:
             
             uint8_t position = buffer[17];
-            
+            Serial.printf("\n\n ********************************************************* \n");
             Serial.printf("abschnittnummer: %d\n",abschnittnummer);
             lcd.setCursor(10,1);
             lcd.print(String(abschnittnummer));
@@ -1035,6 +1035,8 @@ void loop()
             
             //             if (buffer[9]& 0x02)// letzter Abschnitt
             
+            Serial.printf("------------------------                buffer[17]: %d\n",buffer[17]);
+            
             // position im Ablauf: 
             // 1: erster Abschnitt
             // 2: letzter Abschnitt
@@ -1052,6 +1054,7 @@ void loop()
                   Serial.printf("------------------------  nur ein abschnitt endposition: %d   * ringbufferstatus: %d\n",endposition, ringbufferstatus);
                   
                }
+               
             }
             
             
@@ -1071,7 +1074,7 @@ void loop()
                // Daten laden in ringbuffer an Position pos
                uint8_t i=0;
                
-                for(i=0;i<22;i++)
+                for(i=0;i<10;i++)
                 {
                    Serial.printf("%d\t",i);
                 }
@@ -1079,7 +1082,7 @@ void loop()
                 
                for(i=0;i<USB_DATENBREITE;i++)
                { 
-                  if (i < 22)
+                  if (i < 10)
                   {
                      Serial.printf("%d \t",buffer[i]);
                   }
@@ -1092,6 +1095,8 @@ void loop()
             
             // Erster Abschnitt, Beim Start naechsten Abschnitt ebenfalls laden, Anfrage an host
             
+            
+            /*
             if (ringbufferstatus & (1<<LASTBIT)) // nur 1 Abschnitt
                 {
                    Serial.printf("erster Abschnitt nur 1 Abschnitt ladeposition: %d\n",ladeposition);
@@ -1105,7 +1110,11 @@ void loop()
                  
                 }
             
-            else if ((abschnittnummer == 0)&&(endposition)) // 
+            else 
+             */
+            
+            
+            if ((abschnittnummer == 0)&&(endposition)) // 
                 {
                    {
                       Serial.printf("erster Abschnitt, mehr Abschnitte ladeposition: %d endposition: %d\n",ladeposition,endposition);
@@ -1126,7 +1135,7 @@ void loop()
                 }
             
             ringbufferstatus &= ~(1<<FIRSTBIT);
-            ringbufferstatus |= (1<<STARTBIT);
+  //          ringbufferstatus |= (1<<STARTBIT);
             // Ringbuffer ist voll oder  letzter Abschnitt schon erreicht
             Serial.printf("end USB abschnittnummer: %d ringbufferstatus: %d\n",abschnittnummer,ringbufferstatus);
             if ((abschnittnummer ==1 )||((abschnittnummer ==0 )&&(ringbufferstatus & (1<<LASTBIT)))) 
@@ -1134,7 +1143,7 @@ void loop()
                {
                   Serial.printf("ringbuffer full\n");
                   ringbufferstatus &= ~(1<<LASTBIT);
-                  //ringbufferstatus |= (1<<STARTBIT);
+                  ringbufferstatus |= (1<<STARTBIT);
                   
                }
             }
@@ -1288,7 +1297,7 @@ void loop()
          // Begin Ringbuffer-Stuff
          //if (ringbufferstatus & (1<<ENDBIT))
          
-         if ((abschnittnummer==endposition) && (ringbufferstatus & (1<<ENDBIT))) // Ablauf fertig
+         if ((abschnittnummer==endposition) && ((ringbufferstatus & (1<<ENDBIT)) || (ringbufferstatus & (1<<LASTBIT)))) // Ablauf fertig
          {  
             Serial.printf("\nMotor A endpos\n");
             noInterrupts();
@@ -1325,10 +1334,10 @@ void loop()
                sendbuffer[5]=abschnittnummer;
                sendbuffer[6]=ladeposition;
                usb_rawhid_send((void*)sendbuffer, 50);
-               
+               ringbufferstatus |= (1<<ENDBIT);
                ringbufferstatus |= (1<<LASTBIT);
                interrupts();
-               endposition = 0xFFFF;
+               //endposition = 0xFFFF;
             
                
             }
@@ -1403,7 +1412,8 @@ void loop()
       if (StepCounterB ==0 && (motorstatus & (1<< COUNT_B))) // Motor B ist relevant fuer Stepcount 
       {
          //            STEPPERPORT_1 |= (1<<MB_EN);               // Motor B OFF
-         
+         Serial.printf("\nMotor B StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
+        
          //StepCounterA=0;
          //lcd_putc('-');
          // Begin Ringbuffer-Stuff
@@ -1429,6 +1439,8 @@ void loop()
                
                // aktuellen Abschnitt laden
                aktuellelage = AbschnittLaden_4M(CNCDaten[aktuelleladeposition]);
+               Serial.printf("+++ AbschnittLaden_4M Motor B aktuellelage: %d aktuelleladeposition: %d\n",aktuellelage, aktuelleladeposition);
+
                if (aktuellelage==2) // war letzter Abschnitt
                {
                   endposition=abschnittnummer; // letzter Abschnitt

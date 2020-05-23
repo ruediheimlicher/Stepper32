@@ -3941,6 +3941,7 @@
 		BDC669962465E5EF00F5D587 /* gpio_MCP23S17.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpio_MCP23S17.cpp; sourceTree = "<group>"; };
 		BDC669972465E5F000F5D587 /* gpio_MCP23S17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpio_MCP23S17.h; sourceTree = "<group>"; };
 		BDC669982465E5F000F5D587 /* lcd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lcd.h; sourceTree = "<group>"; };
+		BDC9848524740C0B00C35696 /* teensy++.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "teensy++.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -8322,6 +8323,7 @@
 				BDC6699324644D2F00F5D587 /* schematic32.gif */,
 				BDC6699424644D2F00F5D587 /* teensy32_k.jpg */,
 				BDC6699524644D3000F5D587 /* teensy32.jpg */,
+				BDC9848524740C0B00C35696 /* teensy++.png */,
 				AAAA200506211112AA000000 /* Resources */,
 				BDC427C22463415100E4335A /* Configurations */,
 			);

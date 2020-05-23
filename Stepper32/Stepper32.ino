@@ -64,7 +64,7 @@
 uint8_t loopLED;
 #define USB_DATENBREITE 64
 
-
+#define TEST 0
 
 int8_t r;
 
@@ -102,6 +102,8 @@ volatile uint8_t           ringbufferstatus=0x00;
 uint16_t                   AbschnittCounter=0;
 volatile uint8_t           liniencounter= 0;
 // end Ringbuffer
+volatile uint16_t           steps= 0;
+
 
 volatile uint8_t           timer0startwert=TIMER0_STARTWERT;
 
@@ -150,21 +152,31 @@ IntervalTimer delayTimer;
 
 void OSZI_A_LO(void)
 {
+   if (TEST)
    digitalWriteFast(OSZI_PULS_A,LOW);
 }
 
 void OSZI_A_HI(void)
 {
+   if (TEST)
    digitalWriteFast(OSZI_PULS_A,HIGH);
+}
+
+void OSZI_A_TOGG(void)
+{
+   if (TEST)
+   digitalWrite(OSZI_PULS_A, !digitalRead(OSZI_PULS_A));
 }
 
 void OSZI_B_LO(void)
 {
+   if (TEST)
    digitalWriteFast(OSZI_PULS_B,LOW);
 }
 
 void OSZI_B_HI(void)
 {
+   if (TEST)
    digitalWriteFast(OSZI_PULS_B,HIGH);
 }
 
@@ -278,7 +290,7 @@ void delaytimerfunction(void) // 1us
 uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
 {
    //OSZI_A_LO();
-   Serial.printf("\nAbschnittLaden_4M Motor: %d\n",AbschnittDaten[21]);
+//   Serial.printf("\nAbschnittLaden_4M Motor: %d\n",AbschnittDaten[21]);
    stopTimer2();
    uint8_t returnwert=0;
 #  pragma mark Reihenfolge der Daten
@@ -346,7 +358,7 @@ uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
 
    DelayA = (AbschnittDaten[5]<<8)+ AbschnittDaten[4];
    
-   Serial.printf("dataL: %d dataH: %d  delayL: %d delayH: %d\n",dataL,dataH, delayL,delayH);
+//   Serial.printf("dataL: %d dataH: %d  delayL: %d delayH: %d\n",dataL,dataH, delayL,delayH);
    
    //lcd_gotoxy(17,0);
    if (dataH & (0x80)) // Bit 7 gesetzt, negative zahl
@@ -372,12 +384,12 @@ uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
    StepCounterA <<= 8;        // shift 8
    StepCounterA += dataL;     // +LByte
    
-   Serial.printf("StepCounterA: %d delayA: %d\n",StepCounterA,DelayA);
+//   Serial.printf("StepCounterA: %d delayA: %d\n",StepCounterA,DelayA);
    
    
    
    CounterA = DelayA;
-   Serial.printf("CounterA: %d\n",CounterA);
+//   Serial.printf("CounterA: %d\n",CounterA);
    
    
    // Motor B
@@ -659,7 +671,12 @@ void AnschlagVonMotor(const uint8_t motor)
    }
 }
 
-
+/*
+void thread_func(int inc) 
+{
+   while(1) steps += inc;
+}
+*/
 
 
 
@@ -672,6 +689,14 @@ void setup()
 {
    Serial.begin(9600);
    pinMode(LOOPLED, OUTPUT);
+
+
+   pinMode(DC_PWM, OUTPUT);
+   digitalWriteFast(DC_PWM, HIGH); // OFF
+   
+   pinMode(STROM, OUTPUT);
+   digitalWriteFast(STROM, LOW); // LO, OFF
+   
    
    // init Pins
    // Stepper A
@@ -725,8 +750,11 @@ void setup()
    pinMode(END_C0_PIN, INPUT_PULLUP); // 
    pinMode(END_D0_PIN, INPUT_PULLUP); // 
    
-   pinMode(OSZI_PULS_A, OUTPUT);
-   digitalWriteFast(OSZI_PULS_A, HIGH); 
+   if (TEST)
+   {
+      pinMode(OSZI_PULS_A, OUTPUT);
+      digitalWriteFast(OSZI_PULS_A, HIGH); 
+   }
    
    delay(100);
    lcd.init();
@@ -737,11 +765,25 @@ void setup()
    //lcd.print("hallo");
    delayTimer.begin(delaytimerfunction,200);
    
+   
+//   threads.addThread(thread_func, 1);
+   lcd.setCursor(0,0);
+   lcd.print("Abschnitte: ");
+
+   lcd.setCursor(0,1);
+   lcd.print("Step: ");
+   lcd.setCursor(8,1);
+   lcd.print("PWM: ");
+
 }
 
 // Add loop code
 void loop()
 {
+//   Serial.println(steps);
+//   threads.delay(1000);
+   
+   
    if (sinceblink > 1000) 
    {  
       //scanI2C(100000);
@@ -795,7 +837,7 @@ void loop()
      noInterrupts();
       uint8_t code = 0x00;
       code = buffer[16];
-      Serial.printf("----------------------------------->    rawhid_recv code: %02X\n",code);
+//      Serial.printf("----------------------------------->    rawhid_recv code: %02X\n",code);
       usb_recv_counter++;
       switch (code)
       {   
@@ -821,8 +863,8 @@ void loop()
             
             AbschnittCounter=0;
             PWM = sendbuffer[20];
-            //CMD_PORT &= ~(1<<DC);
-//            digitalWriteFast(DC,LOW);
+            //CMD_PORT &= ~(1<<DC_PWM);
+            digitalWriteFast(DC_PWM,HIGH);
             
             
             StepCounterA=0;
@@ -853,15 +895,15 @@ void loop()
          }break;
          
          
-      case 0xE2: // DC ON_OFF: Temperatur Schneiddraht setzen
+      case 0xE2: // DC_PWM ON_OFF: Temperatur Schneiddraht setzen
          {
             
             PWM = buffer[20];
             Serial.printf("E2 setPWM: %d\n",PWM);
             if (PWM==0)
             {
-               //CMD_PORT &= ~(1<<DC);
-//               digitalWriteFast(DC,LOW);
+               //CMD_PORT &= ~(1<<DC_PWM);
+              digitalWriteFast(DC_PWM,LOW);
             }
             
             sendbuffer[0]=0xE3;
@@ -879,20 +921,20 @@ void loop()
             if (buffer[8])
             {
                //CMD_PORT |= (1<<STROM); // ON
- //              digitalWriteFast(STROM,HIGH);
+               digitalWriteFast(STROM,HIGH);
                PWM = buffer[20];
             }
             else
             {
                //CMD_PORT &= ~(1<<STROM); // OFF
- //              digitalWriteFast(STROM,LOW);
+               digitalWriteFast(STROM,LOW);
                PWM = 0;
             }
             
             if (PWM==0)
             {
-               //CMD_PORT &= ~(1<<DC);
- //              digitalWriteFast(DC,LOW);
+               //CMD_PORT &= ~(1<<DC_PWM);
+               digitalWriteFast(DC_PWM,LOW);
             }
             
             
@@ -926,8 +968,8 @@ void loop()
             
             AbschnittCounter=0;
             PWM = 0;
-            //CMD_PORT &= ~(1<<DC);
- //           digitalWriteFast(DC,LOW);
+            //CMD_PORT &= ~(1<<DC_PWM);
+            digitalWriteFast(DC_PWM,LOW);
             
             StepCounterA=0;
             StepCounterB=0;
@@ -959,7 +1001,7 @@ void loop()
 #pragma mark default
       default:
          {
-            Serial.printf("\n---  usb_recv_counter %d\t default \nringbufferstatus: %02X position(buffer17): %02X\n",usb_recv_counter,ringbufferstatus, buffer[17]);
+  //          Serial.printf("\n---  usb_recv_counter %d\t default \nringbufferstatus: %02X position(buffer17): %02X\n",usb_recv_counter,ringbufferstatus, buffer[17]);
             // Abschnittnummer bestimmen
             uint8_t indexh=buffer[18];
             uint8_t indexl=buffer[19];
@@ -968,12 +1010,17 @@ void loop()
             abschnittnummer += indexl;
             
             // position:
-            
             uint8_t position = buffer[17];
-            Serial.printf("\n\n ********************************************************* \n");
-            Serial.printf("abschnittnummer: %d\n",abschnittnummer);
-            lcd.setCursor(10,1);
-            lcd.print(String(abschnittnummer));
+            //OSZI_A_LO();
+  //          Serial.printf("\n\n ********************************************************* \n");
+  //          Serial.printf("abschnittnummer: %d PWM: %d\n",abschnittnummer, buffer[20]); // 50 us
+            //OSZI_A_HI();
+   //         lcd.setCursor(5,1);
+   //         lcd.print(String(abschnittnummer));
+            
+  //          lcd.setCursor(13,1);
+  //          lcd.print(String(buffer[20]));
+
   //          sendbuffer[0]=0x33;
   //          sendbuffer[5]=abschnittnummer;
   //          sendbuffer[6]=buffer[16];
@@ -985,11 +1032,14 @@ void loop()
             if (abschnittnummer==0)  // Start
             {
                noInterrupts();
+               
                Serial.printf("------------------------  first abschnitt, endposition: %d\n",endposition);
-               lcd.setCursor(3,0);
-               lcd.print("a0 ");
-               lcd.print(String(abschnittnummer));
-               lcd.print('*');
+               
+  //             Serial.printf("count: %d\n",buffer[22]);
+               lcd.setCursor(11,0);
+               //lcd.print("Abschnitt: ");
+               lcd.print(String(buffer[22]));
+               
                 
                ladeposition=0;
                endposition=0xFFFF;
@@ -1027,15 +1077,15 @@ void loop()
             else // Abschnittnummer > 0
             {
                // Ablauf schon gestartert
-               Serial.printf("  -----                   Ablauf gestartet, abschnittnummer: %d\n",abschnittnummer);
-               lcd.setCursor(12,0);
-               lcd.print(String(abschnittnummer));
+ //              Serial.printf("  -----                   Ablauf gestartet, abschnittnummer: %d\n",abschnittnummer);
+               //lcd.setCursor(12,0);
+               //lcd.print(String(abschnittnummer));
             
             }
             
             //             if (buffer[9]& 0x02)// letzter Abschnitt
             
-            Serial.printf("------------------------                buffer[17]: %d\n",buffer[17]);
+   //         Serial.printf("------------------------                buffer[17]: %d\n",buffer[17]);
             
             // position im Ablauf: 
             // 1: erster Abschnitt
@@ -1064,7 +1114,7 @@ void loop()
                
                uint8_t pos=(abschnittnummer);
                pos &= 0x03; // 2 bit // Beschraenkung des index auf Buffertiefe 
-               Serial.printf("load  CNC-Daten. abschnittnummer: %d endposition: %d pos: %d\n",abschnittnummer,endposition,pos);
+//               Serial.printf("load  CNC-Daten. abschnittnummer: %d endposition: %d pos: %d\n",abschnittnummer,endposition,pos);
                //if (abschnittnummer>8)
                
                {
@@ -1073,22 +1123,26 @@ void loop()
                
                // Daten laden in ringbuffer an Position pos
                uint8_t i=0;
-               
+               /*
                 for(i=0;i<10;i++)
                 {
                    Serial.printf("%d\t",i);
                 }
-                Serial.printf("\n");
-                
-               for(i=0;i<USB_DATENBREITE;i++)
+                */
+                //Serial.printf("\n");
+                //OSZI_A_LO();
+               for(i=0;i<USB_DATENBREITE;i++) // 5 us ohne printf, 10ms mit printf
                { 
+                  /*
                   if (i < 10)
                   {
                      Serial.printf("%d \t",buffer[i]);
                   }
+                   */
                   CNCDaten[pos][i]=buffer[i];  
                   
                }
+               //OSZI_A_HI();
                Serial.printf("\n");
             }
             
@@ -1117,14 +1171,14 @@ void loop()
             if ((abschnittnummer == 0)&&(endposition)) // 
                 {
                    {
-                      Serial.printf("erster Abschnitt, mehr Abschnitte ladeposition: %d endposition: %d\n",ladeposition,endposition);
+ //                     Serial.printf("erster Abschnitt, mehr Abschnitte ladeposition: %d endposition: %d\n",ladeposition,endposition);
                       //lcd_putc('*');
                       
                       sendbuffer[5]=abschnittnummer;
                       sendbuffer[6]=ladeposition;
                       sendbuffer[0]=0xAF; // next
                       uint8_t senderfolg = usb_rawhid_send((void*)sendbuffer, 50);
-                      Serial.printf("mehr Abschnitte senderfolg; %d\n",senderfolg);
+ //                     Serial.printf("mehr Abschnitte senderfolg; %d\n",senderfolg);
                       sei();
                       //  sendbuffer[0]=0x00;
                       //  sendbuffer[5]=0x00;
@@ -1137,17 +1191,16 @@ void loop()
             ringbufferstatus &= ~(1<<FIRSTBIT);
   //          ringbufferstatus |= (1<<STARTBIT);
             // Ringbuffer ist voll oder  letzter Abschnitt schon erreicht
-            Serial.printf("end USB abschnittnummer: %d ringbufferstatus: %d\n",abschnittnummer,ringbufferstatus);
+  //          Serial.printf("end USB abschnittnummer: %d ringbufferstatus: %d\n",abschnittnummer,ringbufferstatus);
             if ((abschnittnummer ==1 )||((abschnittnummer ==0 )&&(ringbufferstatus & (1<<LASTBIT)))) 
             {
                {
-                  Serial.printf("ringbuffer full\n");
+ //                 Serial.printf("ringbuffer full\n");
                   ringbufferstatus &= ~(1<<LASTBIT);
                   ringbufferstatus |= (1<<STARTBIT);
                   
                }
             }
-            
          } // default
          
       } // switch code
@@ -1163,18 +1216,18 @@ void loop()
       
       noInterrupts();
       
-      Serial.printf("\n\n                 Abschnitt 0 laden ringbufferstatus: %d\n",ringbufferstatus);
+//      Serial.printf("\n\n                 Abschnitt 0 laden ringbufferstatus: %d\n",ringbufferstatus);
       ringbufferstatus &= ~(1<<STARTBIT);  // Startbit entfernen      
       ladeposition=0;  // laufender Zaehler fuer Ringbuffer, gefiltert mit Ringbuffertiefe
       AbschnittCounter=0;
       
       // Abschnitt 0 laden
-      Serial.printf("+++ Ersten Abschnitt laden AbschnittLaden_4M\n");
+ //     Serial.printf("+++ Ersten Abschnitt laden AbschnittLaden_4M\n");
       uint8_t pos=AbschnittLaden_4M(CNCDaten[ladeposition]); // erster Wert im Ringbuffer
       ladeposition++;
       if (pos==2) // nur ein Abschnitt
       {
-         Serial.printf("Abschnitt 0 laden nur 1 Abschnitt\n");
+ //        Serial.printf("Abschnitt 0 laden nur 1 Abschnitt\n");
          ringbufferstatus |=(1<<ENDBIT); // unbenutzt
          ringbufferstatus |=(1<<LASTBIT);
       }
@@ -1268,7 +1321,19 @@ void loop()
    // **************************************
    // * Motor A *
    // **************************************
-
+   /*
+   if ((StepCounterA) && (StepCounterA%100 == 0))
+   {
+      Serial.printf("StepCounterA %d\n",StepCounterA);
+      sendbuffer[0]=0xBA;
+//      steps = StepCounterA%10;
+      sendbuffer[7] = ((StepCounterA & 0xFF00) >> 8); // hi
+      sendbuffer[8] = StepCounterA & 0x00FF; // lo
+      usb_rawhid_send((void*)sendbuffer, 50);
+      //Serial.printf("\nMotor A BA %d",StepCounterA);
+   }
+*/
+   //digitalWrite(OSZI_PULS_A, !digitalRead(OSZI_PULS_A));
    // Es hat noch Steps, CounterA ist abgezaehlt (DelayA bestimmt Impulsabstand fuer Steps)
    if ((StepCounterA > 0) &&(CounterA == 0) &&(!(anschlagstatus & (1<< END_A0))))//||(cncstatus & (1<< END_B0)))))//   
    {
@@ -1278,10 +1343,6 @@ void loop()
       //STEPPERPORT_1 &= ~(1<<MA_STEP);   // Impuls an Motor A LO -> ON
       digitalWriteFast(MA_STEP,LOW);
       CounterA = DelayA;                     // CounterA zuruecksetzen fuer neuen Impuls
- //     if (StepCounterA%10 == 0)
- //     {
-//         Serial.printf("StepCounterA %d\n",StepCounterA);
- //     }
 //      Serial.printf("Motor A daten\n");
 //      Serial.printf("Motor A CounterA: %d StepCounterA: %d \n",CounterA, StepCounterA);
       
@@ -1291,7 +1352,7 @@ void loop()
       
       if (StepCounterA == 0 && (motorstatus & (1<< COUNT_A)))    // StepCounterA abgelaufen, Motor A ist relevant fuer Stepcount
       {
-         Serial.printf("\nMotor A StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
+ //        Serial.printf("\nMotor A StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
  
          //
          // Begin Ringbuffer-Stuff
@@ -1321,11 +1382,11 @@ void loop()
             
             // aktuellen Abschnitt laden
             aktuellelage = AbschnittLaden_4M(CNCDaten[aktuelleladeposition]);
-            Serial.printf("+++ AbschnittLaden_4M Motor A aktuellelage: %d aktuelleladeposition: %d\n",aktuellelage, aktuelleladeposition);
+//            Serial.printf("+++ AbschnittLaden_4M Motor A aktuellelage: %d aktuelleladeposition: %d\n",aktuellelage, aktuelleladeposition);
             if (aktuellelage==2) // war letzter Abschnitt
             {
                
-               Serial.printf("Motor A last Abschnitt\n");
+//               Serial.printf("Motor A last Abschnitt\n");
                noInterrupts();
                endposition=abschnittnummer; // letzter Abschnitt
                
@@ -1343,7 +1404,7 @@ void loop()
             }
             else
             {
-               Serial.printf("Motor A neuen Abschnitt abrufen mit A1\n");
+  //             Serial.printf("Motor A neuen Abschnitt abrufen mit A1\n");
                // neuen Abschnitt abrufen
                sendbuffer[5]=abschnittnummer;
                sendbuffer[6]=ladeposition;
@@ -1412,7 +1473,7 @@ void loop()
       if (StepCounterB ==0 && (motorstatus & (1<< COUNT_B))) // Motor B ist relevant fuer Stepcount 
       {
          //            STEPPERPORT_1 |= (1<<MB_EN);               // Motor B OFF
-         Serial.printf("\nMotor B StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
+ //        Serial.printf("\nMotor B StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
         
          //StepCounterA=0;
          //lcd_putc('-');
@@ -1439,7 +1500,7 @@ void loop()
                
                // aktuellen Abschnitt laden
                aktuellelage = AbschnittLaden_4M(CNCDaten[aktuelleladeposition]);
-               Serial.printf("+++ AbschnittLaden_4M Motor B aktuellelage: %d aktuelleladeposition: %d\n",aktuellelage, aktuelleladeposition);
+//               Serial.printf("+++ AbschnittLaden_4M Motor B aktuellelage: %d aktuelleladeposition: %d\n",aktuellelage, aktuelleladeposition);
 
                if (aktuellelage==2) // war letzter Abschnitt
                {

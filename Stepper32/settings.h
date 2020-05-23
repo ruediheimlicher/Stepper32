@@ -27,7 +27,9 @@
  #define END_B0_PIN      7           // Bit fuer Endanschlag bei A1
  
 #define STROM              8
-#define DC                 9
+#define DC_PWM               9
+
+
 // Stepper B
 
 #define MC_STEP            14           // PIN auf Stepperport 2

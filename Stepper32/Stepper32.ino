@@ -80,9 +80,11 @@ elapsedMillis sinceblink;
 elapsedMillis sincelcd;
 elapsedMillis sinceusb;
 
-elapsedMillis sincepot; // Zeitdauer der Anzeige des Potentialwertes
+elapsedMillis sinceload; // Zeitdauer der Anzeige des Potentialwertes
 
 elapsedMicros sincelaststep;
+
+elapsedMillis sincelastthread;
 
 // Prototypes
 
@@ -99,10 +101,13 @@ volatile uint8_t           ladeposition=0;
 
 volatile uint8_t           ringbufferstatus=0x00;   
 
+uint16_t                   Abschnitte=0;
 uint16_t                   AbschnittCounter=0;
 volatile uint8_t           liniencounter= 0;
 // end Ringbuffer
 volatile uint16_t           steps= 0;
+
+volatile uint16_t           loadtime= 0;
 
 
 volatile uint8_t           timer0startwert=TIMER0_STARTWERT;
@@ -141,6 +146,8 @@ volatile uint16_t          StepCounterD=0;   // Zaehler fuer Schritte von Motor 
 
 volatile uint8_t           richtung=0;
 
+volatile uint8_t           parallelcounter=0;
+volatile uint8_t           parallelstatus=0; // Status des Thread
 
 // Create an IntervalTimer object 
 IntervalTimer delayTimer;
@@ -293,6 +300,7 @@ uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
 //   Serial.printf("\nAbschnittLaden_4M Motor: %d\n",AbschnittDaten[21]);
    stopTimer2();
    uint8_t returnwert=0;
+   parallelstatus  |= (1<<THREAD_COUNT_BIT);
 #  pragma mark Reihenfolge der Daten
    /*         
     Reihenfolge der Daten:
@@ -671,12 +679,8 @@ void AnschlagVonMotor(const uint8_t motor)
    }
 }
 
-/*
-void thread_func(int inc) 
-{
-   while(1) steps += inc;
-}
-*/
+
+
 
 
 
@@ -685,6 +689,68 @@ gpio_MCP23S17     mcp0(10,0x20);//instance 0 (address A0,A1,A2 tied to 0)
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x20
 //delay(1000); 
 // Add setup code
+
+
+
+void thread_func(int inc) 
+{
+   /*
+   lcd.setCursor(0,0);
+   lcd.print("A: ");
+   
+   lcd.setCursor(0,1);
+   lcd.print("A:");
+   lcd.setCursor(6,1);
+   lcd.print("B:");
+   
+   lcd.setCursor(5,0);
+   lcd.print("PWM:");
+*/
+   while (1)
+   {
+      if (parallelstatus & (1<<THREAD_COUNT_BIT))
+      {
+         parallelcounter += 1;
+         
+         lcd.setCursor(0,1);
+         String s = "D";
+         lcd.setCursor(13,0);
+         
+         uint16_t rest = Abschnitte - AbschnittCounter;
+         s.append(rest);
+         
+         s.append("n ");
+         
+         s.append(StepCounterA);
+         s.append("\n");
+         
+         lcd.print(s);
+        
+         /*
+         //lcd.print(String(parallelcounter));
+         lcd.setCursor(9,0);
+         lcd.print(String(PWM));
+         lcd.setCursor(2,1);
+         lcd.print(String(StepCounterA));
+         lcd.setCursor(8,1);
+         lcd.print(String(StepCounterB));
+          */
+         parallelstatus  &= ~(1<<THREAD_COUNT_BIT);
+     }
+   }
+   /*
+   if (sincelastthread >= 500)
+   {
+      sincelastthread = 0;
+      parallelcounter += 2;
+ //     lcd.setCursor(12,0);
+  //    lcd.print(String(parallelcounter));
+   }
+   */
+}
+
+
+
 void setup()
 {
    Serial.begin(9600);
@@ -763,18 +829,22 @@ void setup()
    
    //lcd.setCursor(0,0);
    //lcd.print("hallo");
-   delayTimer.begin(delaytimerfunction,200);
+   delayTimer.begin(delaytimerfunction,180);
    
    
-//   threads.addThread(thread_func, 1);
+   threads.addThread(thread_func, 1);
+ /*  
    lcd.setCursor(0,0);
-   lcd.print("Abschnitte: ");
+   lcd.print("A: ");
 
    lcd.setCursor(0,1);
-   lcd.print("Step: ");
-   lcd.setCursor(8,1);
-   lcd.print("PWM: ");
+   lcd.print("A:");
+   lcd.setCursor(6,1);
+   lcd.print("B:");
 
+   lcd.setCursor(5,0);
+   lcd.print("PWM:");
+*/
 }
 
 // Add loop code
@@ -814,6 +884,10 @@ void loop()
       {
          digitalWriteFast(LOOPLED, 1);
       }
+      parallelcounter += 2;
+//      lcd.setCursor(14,0);
+//      lcd.print(String(parallelcounter));
+
    }// sinceblink
    
    if (sincelaststep > 500)
@@ -900,11 +974,12 @@ void loop()
             
             PWM = buffer[20];
             Serial.printf("E2 setPWM: %d\n",PWM);
-            if (PWM==0)
+            if (PWM==0) // OFF
             {
                //CMD_PORT &= ~(1<<DC_PWM);
               digitalWriteFast(DC_PWM,LOW);
             }
+            parallelstatus |= (1<<THREAD_COUNT_BIT);
             
             sendbuffer[0]=0xE3;
   //          usb_rawhid_send((void*)sendbuffer, 50);
@@ -1010,6 +1085,7 @@ void loop()
             abschnittnummer += indexl;
             
             // position:
+            
             uint8_t position = buffer[17];
             //OSZI_A_LO();
   //          Serial.printf("\n\n ********************************************************* \n");
@@ -1036,9 +1112,10 @@ void loop()
                Serial.printf("------------------------  first abschnitt, endposition: %d\n",endposition);
                
   //             Serial.printf("count: %d\n",buffer[22]);
-               lcd.setCursor(11,0);
+               lcd.setCursor(2,0);
                //lcd.print("Abschnitt: ");
-               lcd.print(String(buffer[22]));
+               Abschnitte = buffer[22];
+               lcd.print(String(Abschnitte));
                
                 
                ladeposition=0;
@@ -1213,7 +1290,7 @@ void loop()
    /**   Start CNC-routinen   ***********************/
    if (ringbufferstatus & (1<<STARTBIT)) // Buffer ist in Ringbuffer geladen, Schnittdaten von Abschnitt 0 laden
    {
-      
+      loadtime = sinceload;
       noInterrupts();
       
 //      Serial.printf("\n\n                 Abschnitt 0 laden ringbufferstatus: %d\n",ringbufferstatus);
@@ -1234,6 +1311,8 @@ void loop()
       
       AbschnittCounter+=1;
       interrupts();
+      loadtime = sinceload - loadtime;
+      Serial.printf("%d\n",loadtime);
    }
    
 #pragma mark Anschlag
@@ -1337,6 +1416,7 @@ void loop()
    // Es hat noch Steps, CounterA ist abgezaehlt (DelayA bestimmt Impulsabstand fuer Steps)
    if ((StepCounterA > 0) &&(CounterA == 0) &&(!(anschlagstatus & (1<< END_A0))))//||(cncstatus & (1<< END_B0)))))//   
    {
+      
       noInterrupts();
       
       // Impuls starten
@@ -1353,7 +1433,7 @@ void loop()
       if (StepCounterA == 0 && (motorstatus & (1<< COUNT_A)))    // StepCounterA abgelaufen, Motor A ist relevant fuer Stepcount
       {
  //        Serial.printf("\nMotor A StepCounterA abgelaufen abschnittnummer: %d endposition: %d ringbufferstatus: %d\n", abschnittnummer, endposition, ringbufferstatus);
- 
+         loadtime = sinceload;
          //
          // Begin Ringbuffer-Stuff
          //if (ringbufferstatus & (1<<ENDBIT))
@@ -1425,7 +1505,9 @@ void loop()
             AbschnittCounter++;
             
          }
-         
+         loadtime = sinceload - loadtime;
+        Serial.printf("%d\n",loadtime);
+
       }
       
       interrupts();

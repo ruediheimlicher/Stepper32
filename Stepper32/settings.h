@@ -103,7 +103,7 @@
 #define OSZI_PULS_B        9
 
 
-
+#define THREAD_COUNT_BIT   0
 
 
 

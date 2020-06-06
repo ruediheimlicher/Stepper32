@@ -105,7 +105,7 @@
 
 #define THREAD_COUNT_BIT   0
 
-
+#define TIMERINTERVALL 180
 
 
 #endif /* settings_h */

@@ -97,7 +97,7 @@ uint8_t                    CDCStringArray[RINGBUFFERTIEFE];
 
 volatile uint16_t          abschnittnummer=0;
 volatile uint16_t          endposition= 0xFFFF;
-volatile uint8_t           ladeposition=0;
+volatile uint16_t           ladeposition=0;
 
 volatile uint8_t           ringbufferstatus=0x00;   
 
@@ -520,7 +520,13 @@ uint8_t  AbschnittLaden_4M(const uint8_t* AbschnittDaten) // 22us
    
    // motorstatus: welcher Motor ist relevant
    motorstatus = AbschnittDaten[21];
+   Serial.printf("*** Abschnittladen motorstatus %d\n",motorstatus); 
    
+   if (motorstatus > 3)
+   {
+      Serial.printf("*** Abschnittladen motorstatus korr\n"); 
+      //motorstatus = 1;
+   }
    startTimer2();
    
    
@@ -653,8 +659,9 @@ void AnschlagVonMotor(const uint8_t motor)
             }
             
             sendbuffer[5]=abschnittnummer;
-            sendbuffer[6]=ladeposition;
-            sendbuffer[7]=cncstatus;
+            sendbuffer[6]=ladeposition & 0x00FF;
+            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[8]=cncstatus;
             usb_rawhid_send((void*)sendbuffer, 50);
              
             //ladeposition=0;
@@ -713,19 +720,22 @@ void thread_func(int inc)
          parallelcounter += 1;
          
          lcd.setCursor(0,1);
-         String s = "D";
+         //String s = "D";
          lcd.setCursor(13,0);
          
          uint16_t rest = Abschnitte - AbschnittCounter;
-         s.append(rest);
+         lcd.print(String(rest));
          
+         
+       //  s.append(rest);
+         /*
          s.append("n ");
          
          s.append(StepCounterA);
          s.append("\n");
          
          lcd.print(s);
-        
+        */
          /*
          //lcd.print(String(parallelcounter));
          lcd.setCursor(9,0);
@@ -829,14 +839,16 @@ void setup()
    
    //lcd.setCursor(0,0);
    //lcd.print("hallo");
-   delayTimer.begin(delaytimerfunction,180);
+   delayTimer.begin(delaytimerfunction,TIMERINTERVALL);
    
    
-   threads.addThread(thread_func, 1);
- /*  
+//   threads.addThread(thread_func, 1);
+   
    lcd.setCursor(0,0);
-   lcd.print("A: ");
-
+   lcd.print("Abschnitte:");
+   lcd.setCursor(0,1);
+   lcd.print("PWM:");
+   /*
    lcd.setCursor(0,1);
    lcd.print("A:");
    lcd.setCursor(6,1);
@@ -926,7 +938,11 @@ void loop()
             sendbuffer[0]=0xE1;
             
             sendbuffer[5]=abschnittnummer;
-            sendbuffer[6]=ladeposition;
+            sendbuffer[6]=ladeposition & 0x00FF;
+            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+            
+            
+            
             usb_rawhid_send((void*)sendbuffer, 50);
             
             sendbuffer[0]=0x00;
@@ -1101,9 +1117,7 @@ void loop()
   //          sendbuffer[5]=abschnittnummer;
   //          sendbuffer[6]=buffer[16];
             
- //           sendbuffer[8]= versionintl;
- //           sendbuffer[9]= versioninth;
- //           usb_rawhid_send((void*)sendbuffer, 50); // nicht jedes Paket melden
+  //           usb_rawhid_send((void*)sendbuffer, 50); // nicht jedes Paket melden
             
             if (abschnittnummer==0)  // Start
             {
@@ -1112,10 +1126,14 @@ void loop()
                Serial.printf("------------------------  first abschnitt, endposition: %d\n",endposition);
                
   //             Serial.printf("count: %d\n",buffer[22]);
-               lcd.setCursor(2,0);
+               lcd.setCursor(12,0);
                //lcd.print("Abschnitt: ");
                Abschnitte = buffer[22];
                lcd.print(String(Abschnitte));
+               lcd.setCursor(5,1);
+               //lcd.print("Abschnitt: ");
+               PWM= buffer[20];
+               lcd.print(String(PWM));
                
                 
                ladeposition=0;
@@ -1130,13 +1148,17 @@ void loop()
                //sendbuffer[8]= versioninth;
                sendbuffer[5]=0x00;
                //lcd_gotoxy(0,0);
+               sendbuffer[8] = (TIMERINTERVALL & 0xFF00)>>8;
+               sendbuffer[9] = (TIMERINTERVALL & 0x00FF);
                
+               sendbuffer[0]=0xD1;
                
                if (code == 0xF0) // cncstatus fuer go_home setzen
                {
                   sendbuffer[5]=0xF0;
                   sendbuffer[0]=0x45;
-                  cncstatus |= (1<<GO_HOME); // Bit fuer go_home setzen
+                  
+                    cncstatus |= (1<<GO_HOME); // Bit fuer go_home setzen
                   usb_rawhid_send((void*)sendbuffer, 50);
                }
                else if (code == 0xF1)
@@ -1145,7 +1167,7 @@ void loop()
                   cncstatus &= ~(1<<GO_HOME); // Bit fuer go_home zuruecksetzen
                   usb_rawhid_send((void*)sendbuffer, 50);
                }
-               
+               usb_rawhid_send((void*)sendbuffer, 50);
                
                startTimer2();
                interrupts();
@@ -1208,7 +1230,10 @@ void loop()
                 */
                 //Serial.printf("\n");
                 //OSZI_A_LO();
-               for(i=0;i<USB_DATENBREITE;i++) // 5 us ohne printf, 10ms mit printf
+               Serial.printf("%d \n",abschnittnummer);
+               //for(i=0;i<USB_DATENBREITE;i++) // 5 us ohne printf, 10ms mit printf
+               for(i=0;i<22;i++) // 5 us ohne printf, 10ms mit printf
+
                { 
                   /*
                   if (i < 10)
@@ -1216,6 +1241,13 @@ void loop()
                      Serial.printf("%d \t",buffer[i]);
                   }
                    */
+                  if (abschnittnummer > 34)
+                  {
+                     
+                     Serial.printf("%d \t",buffer[i]);
+                     
+                  }
+
                   CNCDaten[pos][i]=buffer[i];  
                   
                }
@@ -1234,7 +1266,8 @@ void loop()
                    //lcd_putc('*');
                    
                    sendbuffer[5]=abschnittnummer;
-                   sendbuffer[6]=ladeposition;
+             sendbuffer[6]=ladeposition & 0x00FF;
+             sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                    sendbuffer[0]=0xD0; // end
                    uint8_t senderfolg = usb_rawhid_send((void*)sendbuffer, 50);
                    Serial.printf("nur 1 Abschnitt senderfolg; %d\n",senderfolg);
@@ -1308,7 +1341,11 @@ void loop()
          ringbufferstatus |=(1<<ENDBIT); // unbenutzt
          ringbufferstatus |=(1<<LASTBIT);
       }
-      
+      if (AbschnittCounter > 34)
+      {
+         
+         
+      }
       AbschnittCounter+=1;
       interrupts();
       loadtime = sinceload - loadtime;
@@ -1447,7 +1484,8 @@ void loop()
             motorstatus=0;
             sendbuffer[0]=0xAD;
             sendbuffer[5]=abschnittnummer;
-            sendbuffer[6]=ladeposition;
+            sendbuffer[6]=ladeposition & 0x00FF;
+            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
             usb_rawhid_send((void*)sendbuffer, 50);
             ladeposition=0;
             
@@ -1473,7 +1511,8 @@ void loop()
                // Neu: letzten Abschnitt melden
                sendbuffer[0]=0xD0;
                sendbuffer[5]=abschnittnummer;
-               sendbuffer[6]=ladeposition;
+               sendbuffer[6]=ladeposition & 0x00FF;
+               sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                usb_rawhid_send((void*)sendbuffer, 50);
                ringbufferstatus |= (1<<ENDBIT);
                ringbufferstatus |= (1<<LASTBIT);
@@ -1487,7 +1526,8 @@ void loop()
   //             Serial.printf("Motor A neuen Abschnitt abrufen mit A1\n");
                // neuen Abschnitt abrufen
                sendbuffer[5]=abschnittnummer;
-               sendbuffer[6]=ladeposition;
+               sendbuffer[6]=ladeposition & 0x00FF;
+               sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                sendbuffer[0]=0xA1;
                usb_rawhid_send((void*)sendbuffer, 50);
             
@@ -1591,7 +1631,8 @@ void loop()
                   // Neu: letzten Abschnitt melden
                   sendbuffer[0]=0xD0;
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
@@ -1600,7 +1641,8 @@ void loop()
                {
                   // neuen Abschnitt abruffen
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   sendbuffer[0]=0xA1;
                   usb_rawhid_send((void*)sendbuffer, 50);
                  
@@ -1699,7 +1741,8 @@ void loop()
                   // Neu: letzten Abschnitt melden
                   sendbuffer[0]=0xD0;
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
@@ -1708,7 +1751,8 @@ void loop()
                {
                   // neuen Abschnitt abrufen
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   sendbuffer[0]=0xA2;
                   usb_rawhid_send((void*)sendbuffer, 50);  
                   
@@ -1791,7 +1835,8 @@ void loop()
                   // Neu: letzten Abschnitt melden
                   sendbuffer[0]=0xD0;
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
@@ -1800,7 +1845,8 @@ void loop()
                {
                   // neuen Abschnitt abruffen
                   sendbuffer[5]=abschnittnummer;
-                  sendbuffer[6]=ladeposition;
+                  sendbuffer[6]=ladeposition & 0x00FF;
+                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
                   sendbuffer[0]=0xA3;
                   usb_rawhid_send((void*)sendbuffer, 50);
                   

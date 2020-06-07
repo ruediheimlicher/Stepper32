@@ -1036,6 +1036,20 @@ void loop()
             //sendbuffer[6]=0x00;
             
          }break;
+            
+         case 0xE6:  // mousup
+         {
+            CounterA = 0;
+            CounterB = 0;
+            ringbufferstatus = 0;
+            cncstatus=0;
+            motorstatus=0;
+            StepCounterA=0;
+            CounterA=0;
+            AbschnittCounter=0;
+            
+         }break;
+
          
       case 0xF1: // reset
          {

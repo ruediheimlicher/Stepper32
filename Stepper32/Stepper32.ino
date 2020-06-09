@@ -1140,9 +1140,9 @@ void loop()
                Serial.printf("------------------------  first abschnitt, endposition: %d\n",endposition);
                
   //             Serial.printf("count: %d\n",buffer[22]);
-               lcd.setCursor(12,0);
+               lcd.setCursor(18,0);
                //lcd.print("Abschnitt: ");
-               Abschnitte = buffer[22];
+               Abschnitte = (buffer[26]<<8) | buffer[27];
                lcd.print(String(Abschnitte));
                lcd.setCursor(5,1);
                //lcd.print("Abschnitt: ");
@@ -1172,7 +1172,7 @@ void loop()
                   sendbuffer[5]=0xF0;
                   sendbuffer[0]=0x45;
                   
-                    cncstatus |= (1<<GO_HOME); // Bit fuer go_home setzen
+                  cncstatus |= (1<<GO_HOME); // Bit fuer go_home setzen
                   usb_rawhid_send((void*)sendbuffer, 50);
                }
                else if (code == 0xF1)
@@ -1244,7 +1244,7 @@ void loop()
                 */
                 //Serial.printf("\n");
                 //OSZI_A_LO();
-               Serial.printf("%d \n",abschnittnummer);
+               Serial.printf("abschnittnummer: %d \n",abschnittnummer);
                //for(i=0;i<USB_DATENBREITE;i++) // 5 us ohne printf, 10ms mit printf
                for(i=0;i<22;i++) // 5 us ohne printf, 10ms mit printf
 

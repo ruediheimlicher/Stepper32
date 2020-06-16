@@ -1009,7 +1009,7 @@ void loop()
       case 0xE4: // Stepperstrom ON_OFF
          {
             Serial.printf("E4 ON\n");
-            if (buffer[8])
+            if (buffer[22]) // DC
             {
                //CMD_PORT |= (1<<STROM); // ON
                digitalWriteFast(STROM,HIGH);
@@ -1129,9 +1129,10 @@ void loop()
   //          lcd.print(String(buffer[20]));
 
             sendbuffer[0]=0x33;
-            sendbuffer[5]=abschnittnummer;
+            sendbuffer[5]=(abschnittnummer & 0xFF00)>>8;
+            sendbuffer[6]=abschnittnummer & 0x00FF;
             
-            sendbuffer[6]=buffer[16];
+            sendbuffer[10]=buffer[16]; // code
             
        //     usb_rawhid_send((void*)sendbuffer, 50); // nicht jedes Paket melden
             
@@ -1161,7 +1162,8 @@ void loop()
                ringbufferstatus |= (1<<FIRSTBIT);
                AbschnittCounter=0;
  
-               sendbuffer[5]=0x00;
+               sendbuffer[5]=0x00; 
+               
                //lcd_gotoxy(0,0);
                sendbuffer[6]=ladeposition & 0x00FF;
                sendbuffer[7]=(ladeposition & 0xFF00) >> 8;

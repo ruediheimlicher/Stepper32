@@ -661,8 +661,9 @@ void AnschlagVonMotor(const uint8_t motor)
             sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
             sendbuffer[5]=abschnittnummer & 0x00FF;
 
-            sendbuffer[6]=ladeposition & 0x00FF;
-            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[7]=ladeposition & 0x00FF;
+            
             sendbuffer[22]=cncstatus;
             usb_rawhid_send((void*)sendbuffer, 50);
              
@@ -942,8 +943,8 @@ void loop()
             sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
             sendbuffer[5]=abschnittnummer & 0x00FF;
             
-            sendbuffer[6]=ladeposition & 0x00FF;
-            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[7]=ladeposition & 0x00FF;
             
             
             
@@ -1138,9 +1139,13 @@ void loop()
             sendbuffer[5]=abschnittnummer & 0x00FF;
 
             
-            sendbuffer[6]=(ladeposition & 0xFF00)>>8;
+            sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
             sendbuffer[7]=ladeposition & 0x00FF;
             
+          
+            sendbuffer[14] = (TIMERINTERVALL & 0xFF00)>>8;
+            sendbuffer[15] = (TIMERINTERVALL & 0x00FF);
+
             sendbuffer[10]=buffer[16]; // code
             
        //     usb_rawhid_send((void*)sendbuffer, 50); // nicht jedes Paket melden
@@ -1174,8 +1179,9 @@ void loop()
                sendbuffer[5]=0x00; 
                
                //lcd_gotoxy(0,0);
-               sendbuffer[6]=ladeposition & 0x00FF;
-               sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+               sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+               sendbuffer[7]=ladeposition & 0x00FF;
+               
 
                sendbuffer[14] = (TIMERINTERVALL & 0xFF00)>>8;
                sendbuffer[15] = (TIMERINTERVALL & 0x00FF);
@@ -1197,7 +1203,7 @@ void loop()
                   usb_rawhid_send((void*)sendbuffer, 50);
                }
                
-               usb_rawhid_send((void*)sendbuffer, 50);
+ //              usb_rawhid_send((void*)sendbuffer, 50);
                
                startTimer2();
                interrupts();
@@ -1313,9 +1319,10 @@ void loop()
                       sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                       sendbuffer[5]=abschnittnummer & 0x00FF;
                       
-                      sendbuffer[6]=ladeposition & 0x00FF;
-                      sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
- 
+                      sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                      sendbuffer[7]=ladeposition & 0x00FF;
+                      
+
                       
                       sendbuffer[0]=0xAF; // next
                       uint8_t senderfolg = usb_rawhid_send((void*)sendbuffer, 50);
@@ -1506,8 +1513,9 @@ void loop()
             sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
             sendbuffer[5]=abschnittnummer & 0x00FF;
             
-            sendbuffer[6]=ladeposition & 0x00FF;
-            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[7]=ladeposition & 0x00FF;
+            
             usb_rawhid_send((void*)sendbuffer, 50);
             ladeposition=0;
             
@@ -1535,9 +1543,10 @@ void loop()
                sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                sendbuffer[5]=abschnittnummer & 0x00FF;
                
-               sendbuffer[6]=ladeposition & 0x00FF;
-               sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-               usb_rawhid_send((void*)sendbuffer, 50);
+               sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+               sendbuffer[7]=ladeposition & 0x00FF;
+               
+              usb_rawhid_send((void*)sendbuffer, 50);
                ringbufferstatus |= (1<<ENDBIT);
                ringbufferstatus |= (1<<LASTBIT);
                interrupts();
@@ -1552,9 +1561,10 @@ void loop()
                sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                sendbuffer[5]=abschnittnummer & 0x00FF;
                
-               sendbuffer[6]=ladeposition & 0x00FF;
-               sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-               sendbuffer[0]=0xA1;
+               sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+               sendbuffer[7]=ladeposition & 0x00FF;
+               
+              sendbuffer[0]=0xA1;
                usb_rawhid_send((void*)sendbuffer, 50);
             
             }
@@ -1659,21 +1669,23 @@ void loop()
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
                   usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
                }  
                else
                {
-                  // neuen Abschnitt abruffen
+                  // neuen Abschnitt abrufen
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-                  sendbuffer[0]=0xA1;
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
+                sendbuffer[0]=0xA1;
                   usb_rawhid_send((void*)sendbuffer, 50);
                  
                }
@@ -1748,9 +1760,10 @@ void loop()
             sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
             sendbuffer[5]=abschnittnummer & 0x00FF;
             
-            sendbuffer[6]=ladeposition & 0x00FF;
-            sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-            usb_rawhid_send((void*)sendbuffer, 50);
+            sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+            sendbuffer[7]=ladeposition & 0x00FF;
+            
+           usb_rawhid_send((void*)sendbuffer, 50);
             ladeposition=0;
             interrupts();
          }
@@ -1776,9 +1789,10 @@ void loop()
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-                  usb_rawhid_send((void*)sendbuffer, 50);
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
+                 usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
                }  
@@ -1788,8 +1802,9 @@ void loop()
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
                   sendbuffer[0]=0xA2;
                   usb_rawhid_send((void*)sendbuffer, 50);  
                   
@@ -1874,9 +1889,10 @@ void loop()
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-                  usb_rawhid_send((void*)sendbuffer, 50);
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
+                 usb_rawhid_send((void*)sendbuffer, 50);
                   
                   
                }  
@@ -1886,8 +1902,9 @@ void loop()
                   sendbuffer[4]=(abschnittnummer & 0xFF00)>>8;
                   sendbuffer[5]=abschnittnummer & 0x00FF;
                   
-                  sendbuffer[6]=ladeposition & 0x00FF;
-                  sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
+                  sendbuffer[7]=ladeposition & 0x00FF;
+                  
                   sendbuffer[0]=0xA3;
                   usb_rawhid_send((void*)sendbuffer, 50);
                   

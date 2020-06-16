@@ -5,4 +5,4 @@ schematic32*
 teensy*
 /Transfer/*
 digi*
-*.xcodeproj*
+*.xcodeproj/*

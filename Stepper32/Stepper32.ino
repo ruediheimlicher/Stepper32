@@ -661,7 +661,7 @@ void AnschlagVonMotor(const uint8_t motor)
             sendbuffer[5]=abschnittnummer;
             sendbuffer[6]=ladeposition & 0x00FF;
             sendbuffer[7]=(ladeposition & 0xFF00) >> 8;
-            sendbuffer[8]=cncstatus;
+            sendbuffer[22]=cncstatus;
             usb_rawhid_send((void*)sendbuffer, 50);
              
             //ladeposition=0;
@@ -1160,8 +1160,7 @@ void loop()
                anschlagstatus=0;
                ringbufferstatus |= (1<<FIRSTBIT);
                AbschnittCounter=0;
-               //sendbuffer[8]= versionintl;
-               //sendbuffer[8]= versioninth;
+ 
                sendbuffer[5]=0x00;
                //lcd_gotoxy(0,0);
                sendbuffer[6]=ladeposition & 0x00FF;

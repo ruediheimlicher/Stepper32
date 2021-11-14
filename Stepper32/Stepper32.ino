@@ -928,6 +928,7 @@ void loop()
       code = buffer[16];
 //      Serial.printf("----------------------------------->    rawhid_recv code: %02X\n",code);
       usb_recv_counter++;
+      sendbuffer[24] =  DEVICE_STEPPER;
       switch (code)
       {   
          
@@ -946,8 +947,7 @@ void loop()
             sendbuffer[6]=(ladeposition & 0xFF00) >> 8;
             sendbuffer[7]=ladeposition & 0x00FF;
             
-            
-            
+             
             usb_rawhid_send((void*)sendbuffer, 50);
             
             sendbuffer[0]=0x00;

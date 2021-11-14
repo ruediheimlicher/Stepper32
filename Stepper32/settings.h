@@ -107,5 +107,8 @@
 
 #define TIMERINTERVALL 180
 
+#define DEVICE_MILL  1
+#define DEVICE_STEPPER  2
+
 
 #endif /* settings_h */

@@ -1,3 +1,5 @@
+//#include <LiquidCrystal_I2C.h>
+
 ///
 /// @mainpage	Stepper32
 ///
@@ -47,7 +49,7 @@
 #include "lcd.h"
 #include "settings.h"
 //#include <Wire.h>
-#include <i2c_t3.h>
+//#include <i2c_t3.h>
 #include <LiquidCrystal_I2C.h> // auch in Makefile angeben!!!
 #include <TeensyThreads.h>
 // Set parameters
@@ -59,7 +61,7 @@
 
 // Define structures and classes
 
-
+#define Wire Wire1
 // Define variables and constants
 uint8_t loopLED;
 #define USB_DATENBREITE 64
@@ -694,8 +696,10 @@ void AnschlagVonMotor(const uint8_t motor)
 
 
 
+//Wire.begin(I2C_SLAVE, 0x44, I2C_PINS_18_19, I2C_PULLUP_EXT, I2C_RATE_400);
 
 gpio_MCP23S17     mcp0(10,0x20);//instance 0 (address A0,A1,A2 tied to 0)
+
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x20
 //delay(1000); 
 // Add setup code
